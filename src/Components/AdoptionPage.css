@@ -1,0 +1,17 @@
+.cards-container {
+  display: flex;
+}
+
+.pet-pic {
+  width: auto;
+  height: 20rem;
+  max-width: 100%;
+}
+
+.pet-pic-container {
+  min-height: 20rem;
+  margin: 1rem;
+}
+.PetCard {
+  width: 50%;
+}
