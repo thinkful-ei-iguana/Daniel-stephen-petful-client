@@ -1,0 +1,41 @@
+.LandingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5;
+}
+
+.LandingPage__logo {
+  font-family: 'Playfair Display', serif;
+}
+
+.LandingPage__img {
+  width: 150px;
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 5px 3px 5px rgba(0,0,0, 0.5);
+}
+
+.LandingPage__content {
+  width: 300px;
+  text-align: center;
+  border: 3px solid rgba(112, 112, 112, .5);
+  border-radius: 5px;
+  box-shadow: 5px 3px 5px rgba(0,0,0, 0.5);
+  padding: 5px 20px;
+  font-family: 'Pontano Sans', sans-serif;
+}
+
+.LandingPage__button {
+  width: 70px;
+  height: 30px;
+  border: 3px solid rgba(112, 112, 112, .5);
+  border-radius: 5px;
+  box-shadow: 5px 3px 5px rgba(0,0,0, 0.5);
+  margin: 30px;
+}
+
+.LandingPage__link {
+  text-decoration: none;
+  color: rgb(0,0,0);
+}

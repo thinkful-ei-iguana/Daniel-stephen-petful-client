@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import config from '../config';
 import PetCard from './PetCard';
 import './AdoptionPage.css';
+import Line from './Line';
+
 const names = ['Daniel', 'Barbara', 'Peter', 'Stephen', 'Sherry', 'Siri', 'Rudolph', 'Linda', 'Sri', 'Someone you know', 'Garfield', 'Alex', 'Maru', 'Penny', 'Sebastian', 'Gus', 'Emily', 'Pierre'];
 const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
 
@@ -122,6 +124,7 @@ class AdoptionPage extends Component {
           <PetCard pet={this.state.currDog} />
           <PetCard pet={this.state.currCat} />
         </div>
+        <Line users={this.state.userLine} />
       </div>
     );
   }
