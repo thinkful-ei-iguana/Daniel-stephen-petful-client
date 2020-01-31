@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import LandingPage from './Components/LandingPage';
+import AdoptionPage from './Components/AdoptionPage';
 import './App.css';
 
 function App() {
@@ -12,6 +13,12 @@ function App() {
         path="/"
         component={LandingPage}
       />
+      <Route
+        exact
+        path="/adopt"
+        component={AdoptionPage}
+      />
+
     </div>
   );
 

@@ -6,7 +6,7 @@ class PetCard extends Component {
     
     return (
       <div className="PetCard">
-        <img src={require(pet.imageURL)} alt={pet.imageDescription} />
+        <img src={pet.imageURL} alt={pet.imageDescription} />
 
 
         <h2 className="PetCard__name">{pet.name}</h2>

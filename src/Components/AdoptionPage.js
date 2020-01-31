@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import baseUrl from '../config';
-import PetCard from './petCard';
-
+import config from '../config';
+import PetCard from './PetCard';
 const names = ['Daniel', 'Barbara', 'Peter', 'Stephen', 'Sherry', 'Siri', 'Rudolph', 'Linda', 'Sri', 'Someone you know', 'Garfield', 'Alex', 'Maru', 'Penny', 'Sebastian', 'Gus', 'Emily', 'Pierre'];
+const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
 
 class AdoptionPage extends Component {  
   state = {
@@ -16,76 +16,90 @@ class AdoptionPage extends Component {
   }
   
   deleteDog = () => {
-    fetch(`${baseUrl}/dog`, {
+    fetch(`${REACT_APP_API_BASE}/dog`, {
       method: 'DELETE'
     });
   }
 
   getDog = () => {
-    fetch(`${baseUrl}/dog`)
+    fetch(`${REACT_APP_API_BASE}/dog`)
       .then(res => res.json())
-      .then(res => {
-        this.setState({currDog: res.body});
+      .then(dog => {
+        console.log(dog);
+        this.setState({currDog: dog});
       })
   }
 
   deletePet = () => {
-    fetch(`${baseUrl}/pet`, {
+    fetch(`${REACT_APP_API_BASE}/pet`, {
       method: 'DELETE'
     });
   }
 
   getPet = () => {
-    fetch(`${baseUrl}/pet`)
+    fetch(`${REACT_APP_API_BASE}/pet`)
       .then(res => res.json())
-      .then(res => {
-        this.setState({currPet: res.body});
+      .then(pet => {
+        this.setState({currPet: pet});
       })
   }
 
   deleteCat = () => {
-    fetch(`${baseUrl}/cat`, {
+    fetch(`${REACT_APP_API_BASE}/cat`, {
       method: 'DELETE'
     });
   }
 
   getCat = () => {
-    fetch(`${baseUrl}/cat`)
+    fetch(`${REACT_APP_API_BASE}/cat`)
       .then(res => res.json())
-      .then(res => {
-        this.setState({currCat: res.body});
+      .then(cat => {
+        this.setState({currCat: cat});
       })
   }
 
   deleteUser = () => {
-    fetch(`${baseUrl}/line`, {
+    fetch(`${REACT_APP_API_BASE}/line`, {
       method: 'DELETE'
     });
   }
 
   addUser = (user) => {
-    fetch(`${baseUrl}/line`, {
+    fetch(`${REACT_APP_API_BASE}/line`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }, 
-      body: JSON.stringify({name: user})
+      body: JSON.stringify({user_name: user})
     })
   }
 
   getUsers = () => {
-    fetch(`${baseUrl}/line`)
+    fetch(`${REACT_APP_API_BASE}/line`)
       .then(res => res.json())
-      .then(res => {
-        this.setState({userLine: res.body});
+      .then(line => {
+        this.setState({userLine: line});
+      })
+  }
+
+  adoptPet = (pet) => {
+    const petDelete = pet.name === this.state.currDog.name ?
+        this.deleteDog : this.deleteCat;
+ 
+    Promise.all([this.deleteUser(), this.deletePet(), petDelete()])
+      .then(() => {
+        this.getCat();
+        this.getDog();
+        this.getPet();
+        this.getUsers();
       })
   }
 
   componentDidMount() {
     const name = names[Math.floor(Math.random()*(names.length-1))+1];
-    this.addUser(name);
-    this.addUser(name);
+    // this.addUser(name);
+    // this.addUser(name);
 
     this.getCat();
     this.getDog();
@@ -93,22 +107,17 @@ class AdoptionPage extends Component {
     this.getUsers();
 
     setInterval(() => {
-      const name = names[Math.floor(Math.random()*(names.length-1))+1];
-      
-      const petDelete = this.currPet.name === this.currDog.name ?
-        this.deleteDog : this.deleteCat;
-      this.deleteUser();
+      const name = names[Math.floor(Math.random()*(names.length-1))];      
+      this.adoptPet(this.state.currPet);
       this.addUser(name);
-      this.deletePet();
-      petDelete();
     }, 30000);
   }
 
   render() {
     return (
       <div className='adoption-container'>
-        <PetCard pet={this.currDog} />
-        <PetCard pet={this.currCat} />
+        <PetCard pet={this.state.currDog} />
+        <PetCard pet={this.state.currCat} />
       </div>
     );
   }
