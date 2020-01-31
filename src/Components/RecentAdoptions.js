@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class RecentAdoptions extends Component {
   render() {
-    const adoptions = this.props;
+    const { adoptions } = this.props;
 
     return (
       <ul className="RecentAdoptions">
