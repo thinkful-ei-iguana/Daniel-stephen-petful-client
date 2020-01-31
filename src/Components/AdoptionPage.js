@@ -69,6 +69,11 @@ class AdoptionPage extends Component {
       })
   }
 
+  queueUser = (name) => {
+    this.setState({currUser: name});
+    this.addUser(name);
+  }
+
   adoptPet = (pet) => {
  
     Promise.all([this.deleteUser(), this.deletePet()])
