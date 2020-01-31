@@ -107,8 +107,8 @@ class AdoptionPage extends Component {
   render() {
     return (
       <div className='adoption-container'>
-        <PetCard />
-        <PetCard />
+        <PetCard pet={this.currDog} />
+        <PetCard pet={this.currCat} />
       </div>
     );
   }
