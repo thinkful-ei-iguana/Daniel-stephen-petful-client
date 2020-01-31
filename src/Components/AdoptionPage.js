@@ -119,7 +119,10 @@ class AdoptionPage extends Component {
           Adopt {this.state.currPet.name}
         </button>
         <Line users={this.state.userLine} />
-        <RecentAdoptions adoptions={this.state.recAdopt} />
+        <RecentAdoptions 
+          adoptions={this.state.recAdopt} 
+          queueUser={this.queueUser}
+        />
       </div>
     );
   }
