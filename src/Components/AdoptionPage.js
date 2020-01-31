@@ -122,9 +122,10 @@ class AdoptionPage extends Component {
     return (
       <div className='adoption-container'>
         <div className="cards-container">
-          <PetCard pet={this.state.currDog} />
-          <PetCard pet={this.state.currCat} />
+          <PetCard pet={this.state.currDog} adopt={this.adoptPet} class='dog' />
+          <PetCard pet={this.state.currCat} adopt={this.adoptPet} class='cat' />
         </div>
+        
         <Line users={this.state.userLine} />
         <RecentAdoptions adoptions={this.state.recAdopt} />
       </div>

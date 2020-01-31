@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class PetCard extends Component {
   render() {
-    const { pet } = this.props;
+    const { pet, adopt } = this.props;
     
     return (
       <div className="PetCard">
@@ -20,6 +20,12 @@ class PetCard extends Component {
           <p className="PetCard__age">{pet.age} years</p>
           <p className="PetCard__story">Story: {pet.story}</p>
         </div>
+        <button 
+          className={`adopt-btn-${this.props.class}`}
+          onClick={() => adopt(pet)}
+        >
+          Adopt {pet.name}
+        </button>
       </div>
     )
   }
