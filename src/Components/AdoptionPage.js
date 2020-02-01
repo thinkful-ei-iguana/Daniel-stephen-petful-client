@@ -16,25 +16,14 @@ class AdoptionPage extends Component {
     adoptUser: '',
     userLine: [], 
     currPet: {},
-    currCat: {},
-    currDog: {},
     recAdopt: [],
   }
   
-  deleteDog = () => {
-    fetch(`${REACT_APP_API_BASE}/dog`, {
-      method: 'DELETE'
-    });
-  }
-
-  getDog = () => {
-    fetch(`${REACT_APP_API_BASE}/dog`)
-      .then(res => res.json())
-      .then(dog => {
-        console.log(dog);
-        this.setState({currDog: dog});
-      })
-  }
+  // deleteDog = () => {
+  //   fetch(`${REACT_APP_API_BASE}/dog`, {
+  //     method: 'DELETE'
+  //   });
+  // }
 
   deletePet = () => {
     fetch(`${REACT_APP_API_BASE}/pet`, {
@@ -50,19 +39,11 @@ class AdoptionPage extends Component {
       })
   }
 
-  deleteCat = () => {
-    fetch(`${REACT_APP_API_BASE}/cat`, {
-      method: 'DELETE'
-    });
-  }
-
-  getCat = () => {
-    fetch(`${REACT_APP_API_BASE}/cat`)
-      .then(res => res.json())
-      .then(cat => {
-        this.setState({currCat: cat});
-      })
-  }
+  // deleteCat = () => {
+  //   fetch(`${REACT_APP_API_BASE}/cat`, {
+  //     method: 'DELETE'
+  //   });
+  // }
 
   deleteUser = () => {
     fetch(`${REACT_APP_API_BASE}/line`, {
@@ -89,14 +70,15 @@ class AdoptionPage extends Component {
       })
   }
 
+  queueUser = (name) => {
+    this.setState({currUser: name});
+    this.addUser(name);
+  }
+
   adoptPet = (pet) => {
-    const petDelete = pet.name === this.state.currDog.name ?
-        this.deleteDog : this.deleteCat;
  
-    Promise.all([this.deleteUser(), this.deletePet(), petDelete()])
+    Promise.all([this.deleteUser(), this.deletePet()])
       .then(() => {
-        this.getCat();
-        this.getDog();
         this.getPet();
         this.getUsers();
       })
@@ -104,30 +86,44 @@ class AdoptionPage extends Component {
 
   componentDidMount() {
     const name = names[Math.floor(Math.random()*(names.length-1))+1];
-    // this.addUser(name);
-    // this.addUser(name);
 
-    this.getCat();
-    this.getDog();
     this.getPet();
     this.getUsers();
 
     setInterval(() => {
-      const name = names[Math.floor(Math.random()*(names.length-1))];      
-      this.adoptPet(this.state.currPet);
-      this.addUser(name);
+      if (this.state.adoptUser !== this.state.currUser) {
+        let name = names[Math.floor(Math.random()*(names.length-1))];      
+        this.adoptPet(this.state.currPet);
+        this.addUser(name);
+      }
     }, 30000);
   }
 
   render() {
+    const disabled = 
+      this.state.currUser === this.state.adoptUser ?
+      'disabled' : '';
+
     return (
       <div className='adoption-container'>
         <div className="cards-container">
-          <PetCard pet={this.state.currDog} />
-          <PetCard pet={this.state.currCat} />
+          <PetCard 
+            pet={this.state.currPet} 
+            adopt={this.adoptPet}
+          />
         </div>
+        <button 
+          className="adopt-btn"
+          onClick={() => this.adoptPet(this.state.currPet)}
+          disabled={disabled}
+        >
+          Adopt {this.state.currPet.name}
+        </button>
         <Line users={this.state.userLine} />
-        <RecentAdoptions adoptions={this.state.recAdopt} />
+        <RecentAdoptions 
+          adoptions={this.state.recAdopt} 
+          queueUser={this.queueUser}
+        />
       </div>
     );
   }

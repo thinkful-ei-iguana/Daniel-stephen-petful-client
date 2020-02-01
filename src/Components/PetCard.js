@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 class PetCard extends Component {
   render() {
-    const { pet } = this.props;
+    const { pet, adopt, active } = this.props;
+    const disabled = active ? '' : 'disabled';
     
     return (
       <div className="PetCard">
@@ -20,6 +21,7 @@ class PetCard extends Component {
           <p className="PetCard__age">{pet.age} years</p>
           <p className="PetCard__story">Story: {pet.story}</p>
         </div>
+        
       </div>
     )
   }
