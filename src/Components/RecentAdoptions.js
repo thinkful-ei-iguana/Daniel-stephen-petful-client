@@ -6,10 +6,10 @@ class RecentAdoptions extends Component {
 
     return (
       <ul className="RecentAdoptions">
-        {adoptions.map(adoption => {
+        {adoptions.map((adoption, i) => {
           return (
-            <li className="RecentAdoptions__adoption">
-            <p>{adoption.user} adopted {adoption.pet}</p>
+            <li className="RecentAdoptions__adoption" key={i}>
+              <p>{adoption.user} adopted {adoption.pet}</p>
             </li>
           )
         })}
