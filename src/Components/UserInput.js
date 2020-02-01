@@ -24,13 +24,14 @@ class UserInput extends Component {
     return (
       <div className="UserInput">
         <form className="UserInput__form">
-          <label htmlFor="user_name">
+          <label htmlFor="user_name" className="label">
             Get your spot for your new BEST FRIEND!
           </label>
+          <div className="row">
+            <input type="text" id="user_name" placeholder="Your name here" onChange={event => this.handleUserName(event)}/>
 
-          <input type="text" id="user_name" placeholder="Your name here" onChange={event => this.handleUserName(event)}/>
-
-          <button className="UserInput__button" onClick={event => this.handleSubmit(event)}>Line up</button>
+            <button className="UserInput__button" onClick={event => this.handleSubmit(event)}>Line up</button>
+          </div>
         </form>
       </div>
     )
