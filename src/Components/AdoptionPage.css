@@ -14,9 +14,47 @@
 }
 .PetCard {
   width: 50%;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 1rem auto;
+}
+
+.adopt-btn {
+  padding: 1rem;
+  background-color: skyblue;
+  margin-bottom: 1rem;
+  font-size: 2rem;
 }
 
 .util-container {
   display: flex;
+  justify-content: space-around;
+}
+
+.UserInput {
+  display: flex;
+  justify-content: center;
+}
+
+.UserInput__form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  max-width: 25rem;
+}
+
+.row {
+  display: flex;
+  flex-direction:row;
+  justify-content:center;
+}
+.label {
+  margin-bottom: 0.5rem;
+  
+}
+
+.UserInput__button {
+  margin-left: 1rem;
+}
+
+#user_name {
+  padding: 0.25rem;
 }

@@ -77,7 +77,8 @@ class AdoptionPage extends Component {
 
   adoptPet = (user, pet) => {
  
-    Promise.all([this.deleteUser(), this.deletePet()])
+    Promise.all([
+      this.deleteUser(), this.deletePet()])
       .then(() => {
         this.getPet();
         this.getUsers();
