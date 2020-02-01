@@ -9,7 +9,7 @@ class Line extends Component {
         <h3>Users waiting to adopt</h3>
         <ul className="Line">
           {users.map((user, i) => {
-            return <li className="Line__user-name" key={i}>{user.user_name}</li>
+            return <li className="Line__user-name" key={i}>{user}</li>
           })}
         </ul>
       </div>

@@ -13,7 +13,6 @@ const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
 class AdoptionPage extends Component {  
   state = {
     currUser: '',
-    adoptUser: '',
     userLine: [], 
     currPet: {},
     recAdopt: [],
@@ -66,23 +65,25 @@ class AdoptionPage extends Component {
     fetch(`${REACT_APP_API_BASE}/line`)
       .then(res => res.json())
       .then(line => {
-        this.setState({userLine: line});
+        this.setState({userLine: line.map(el => el.user_name)});
       })
   }
 
   queueUser = (name) => {
     this.setState({currUser: name});
     this.addUser(name);
+    this.setState({userLine: [...this.state.userLine, name]});
   }
 
-  adoptPet = (pet, user) => {
+  adoptPet = (user, pet) => {
  
     Promise.all([this.deleteUser(), this.deletePet()])
       .then(() => {
         this.getPet();
         this.getUsers();
       })
-    const adopt = {user, pet}
+    const adopt = {user: user, pet: pet.name};
+    console.log(pet);
     this.setState({recAdopt: [...this.state.recAdopt, adopt]});
   }
 
@@ -93,9 +94,9 @@ class AdoptionPage extends Component {
     this.getUsers();
 
     setInterval(() => {
-      if (this.state.adoptUser !== this.state.currUser) {
+      if (this.state.userLine[0] !== this.state.currUser && this.state.currUser !== '') {
         let name = names[Math.floor(Math.random()*(names.length-1))];      
-        this.adoptPet(this.state.currPet);
+        this.adoptPet(this.state.userLine[0], this.state.currPet);
         this.addUser(name);
       }
     }, 30000);
@@ -103,8 +104,8 @@ class AdoptionPage extends Component {
 
   render() {
     const disabled = 
-      this.state.currUser === this.state.adoptUser ?
-      'disabled' : '';
+      this.state.currUser === this.state.userLine[0] ?
+      '' : 'disabled';
 
     return (
       <div className='adoption-container'>
@@ -116,7 +117,7 @@ class AdoptionPage extends Component {
         </div>
         <button 
           className="adopt-btn"
-          onClick={() => this.adoptPet(this.state.currPet)}
+          onClick={() => this.adoptPet(this.state.userLine[0], this.state.currPet)}
           disabled={disabled}
         >
           Adopt {this.state.currPet.name}

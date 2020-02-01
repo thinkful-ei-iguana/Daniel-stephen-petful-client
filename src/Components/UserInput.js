@@ -24,7 +24,7 @@ class UserInput extends Component {
     return (
       <div className="UserInput">
         <form className="UserInput__form">
-          <label for="user_name">
+          <label htmlFor="user_name">
             Get your spot for your new BEST FRIEND!
           </label>
 
