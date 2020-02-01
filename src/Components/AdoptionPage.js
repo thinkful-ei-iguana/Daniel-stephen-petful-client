@@ -99,22 +99,22 @@ class AdoptionPage extends Component {
   }
 
   render() {
+    const disabled = 
+      this.state.currUser === this.state.adoptUser ?
+      'disabled' : '';
+
     return (
       <div className='adoption-container'>
         <div className="cards-container">
           <PetCard 
             pet={this.state.currPet} 
-            adopt={this.adoptPet} 
+            adopt={this.adoptPet}
           />
-          {/* <PetCard 
-            pet={this.state.currCat} 
-            adopt={this.adoptPet} 
-            class='cat' 
-          /> */}
         </div>
         <button 
           className="adopt-btn"
           onClick={() => this.adoptPet(this.state.currPet)}
+          disabled={disabled}
         >
           Adopt {this.state.currPet.name}
         </button>
