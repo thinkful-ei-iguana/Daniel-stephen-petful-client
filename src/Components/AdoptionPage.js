@@ -75,13 +75,15 @@ class AdoptionPage extends Component {
     this.addUser(name);
   }
 
-  adoptPet = (pet) => {
+  adoptPet = (pet, user) => {
  
     Promise.all([this.deleteUser(), this.deletePet()])
       .then(() => {
         this.getPet();
         this.getUsers();
       })
+    const adopt = {user, pet}
+    this.setState({recAdopt: [...this.state.recAdopt, adopt]});
   }
 
   componentDidMount() {
@@ -120,11 +122,12 @@ class AdoptionPage extends Component {
           Adopt {this.state.currPet.name}
         </button>
         <UserInput queueUser={this.queueUser} />
-        <Line users={this.state.userLine} />
-        <RecentAdoptions 
-          adoptions={this.state.recAdopt} 
-          queueUser={this.queueUser}
-        />
+        <div className="util-container">
+          <Line users={this.state.userLine} />
+          <RecentAdoptions 
+            adoptions={this.state.recAdopt} 
+          />
+        </div>
       </div>
     );
   }
