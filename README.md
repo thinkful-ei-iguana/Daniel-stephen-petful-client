@@ -8,8 +8,7 @@ DS-Petful is a pet adoption site that's a little different from the rest. Users 
 
 ## Stack
 
-* Front-End: ReactJS, CSS
-* Back-End: Node.JS, ExpressJS
+ReactJS, CSS
 
 ## Built by;
 
