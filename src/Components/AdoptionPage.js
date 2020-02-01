@@ -16,6 +16,7 @@ class AdoptionPage extends Component {
     currUser: '',
     userLine: new Queue(), 
     currPet: {},
+    nextTwoPets: [],
     recAdopt: [],
   }
   
@@ -34,8 +35,8 @@ class AdoptionPage extends Component {
   getPet = () => {
     fetch(`${REACT_APP_API_BASE}/pet`)
       .then(res => res.json())
-      .then(pet => {
-        this.setState({currPet: pet});
+      .then(firstThree => {
+        this.setState({currPet: firstThree[0], nextTwoPets: firstThree.slice(1)});
       })
   }
 
@@ -103,6 +104,7 @@ class AdoptionPage extends Component {
         <div className="cards-container">
           <PetCard 
             pet={this.state.currPet} 
+            nextPets={this.state.nextTwoPets}
             adopt={this.adoptPet}
           />
         </div>

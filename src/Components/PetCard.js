@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 
 class PetCard extends Component {
   render() {
-    const { pet, adopt, active } = this.props;
+    const { pet, adopt, active, nextPets } = this.props;
     const disabled = active ? '' : 'disabled';
     
     return (
       <div className="PetCard">
-        <div className='pet-pic-container'>
-          <img src={pet.imageURL} alt={pet.imageDescription} className="pet-pic" />
-
+        <div className="all-images">
+            <h4>Upcoming Pets</h4>
+          <div className="next-pets">
+            {nextPets.map((pet, i) => {
+              return <img src={pet.imageURL} alt={pet.imageDescription} key={i} className="next-pet-pic" />
+            })}
+          </div>
+          <div className='pet-pic-container'>
+            <h2>Pet up for adoption</h2>
+            <img src={pet.imageURL} alt={pet.imageDescription} className="pet-pic" />
+          </div>
         </div>
 
 

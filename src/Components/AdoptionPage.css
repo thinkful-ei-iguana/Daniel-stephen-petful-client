@@ -58,3 +58,19 @@
 #user_name {
   padding: 0.25rem;
 }
+
+.all-images {
+  display: flex;
+  flex-direction: column;
+}
+
+.next-pets {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.next-pet-pic {
+  max-width: 50%;
+  margin: 1rem;
+}
