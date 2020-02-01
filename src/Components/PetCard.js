@@ -16,6 +16,7 @@ class PetCard extends Component {
         <h2 className="PetCard__name">{pet.name}</h2>
 
         <div className="PetCard__content">
+          <p className="Petcard__desc">{pet.imageDescription}</p>
           <p className="PetCard__breed">{pet.breed}</p>
           <p className="Petcard__sex">{pet.sex}</p>
           <p className="PetCard__age">{pet.age} years</p>
