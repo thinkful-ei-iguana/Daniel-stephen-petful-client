@@ -14,7 +14,7 @@ function LandingPage() {
       </div>
       
 
-      <button className="LandingPage__button"><Link to={'/adoptions'} className="LandingPage__link">Enter</Link></button>
+      <button className="LandingPage__button"><Link to={'/adopt'} className="LandingPage__link">Enter</Link></button>
     </div>
   );
 }

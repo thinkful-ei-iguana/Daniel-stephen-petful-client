@@ -4,6 +4,7 @@ import PetCard from './PetCard';
 import './AdoptionPage.css';
 import Line from './Line';
 import RecentAdoptions from './RecentAdoptions';
+import UserInput from './UserInput';
 
 const names = ['Daniel', 'Barbara', 'Peter', 'Stephen', 'Sherry', 'Siri', 'Rudolph', 'Linda', 'Sri', 'Someone you know', 'Garfield', 'Alex', 'Maru', 'Penny', 'Sebastian', 'Gus', 'Emily', 'Pierre'];
 const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
