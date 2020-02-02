@@ -5,6 +5,7 @@ import './AdoptionPage.css';
 import Line from './Line';
 import RecentAdoptions from './RecentAdoptions';
 import UserInput from './UserInput';
+import Queue from '../Queue';
 
 const names = ['Daniel', 'Barbara', 'Peter', 'Stephen', 'Sherry', 'Siri', 'Rudolph', 'Linda', 'Sri', 'Someone you know', 'Garfield', 'Alex', 'Maru', 'Penny', 'Sebastian', 'Gus', 'Emily', 'Pierre'];
 const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
@@ -13,8 +14,9 @@ const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
 class AdoptionPage extends Component {  
   state = {
     currUser: '',
-    userLine: [], 
+    userLine: new Queue(), 
     currPet: {},
+    nextTwoPets: [],
     recAdopt: [],
   }
   
@@ -33,8 +35,8 @@ class AdoptionPage extends Component {
   getPet = () => {
     fetch(`${REACT_APP_API_BASE}/pet`)
       .then(res => res.json())
-      .then(pet => {
-        this.setState({currPet: pet});
+      .then(firstThree => {
+        this.setState({currPet: firstThree[0], nextTwoPets: firstThree.slice(1)});
       })
   }
 
@@ -45,34 +47,26 @@ class AdoptionPage extends Component {
   // }
 
   deleteUser = () => {
-    fetch(`${REACT_APP_API_BASE}/line`, {
-      method: 'DELETE'
-    });
-  }
-
-  addUser = (user) => {
-    fetch(`${REACT_APP_API_BASE}/line`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify({user_name: user})
-    })
-  }
-
-  getUsers = () => {
-    fetch(`${REACT_APP_API_BASE}/line`)
-      .then(res => res.json())
-      .then(line => {
-        this.setState({userLine: line.map(el => el.user_name)});
-      })
+    const q = new Queue();
+    let node = this.state.userLine.first.next;
+    while (node !== null) {
+      q.enqueue(node.value);
+      node = node.next;
+    }
+    this.setState({userLine: q});
   }
 
   queueUser = (name) => {
     this.setState({currUser: name});
-    this.addUser(name);
-    this.setState({userLine: [...this.state.userLine, name]});
+    
+    const q = new Queue();
+    let node = this.state.userLine.first;
+    while (node !== null) {
+      q.enqueue(node.value);
+      node = node.next;
+    }
+    q.enqueue(name);
+    this.setState({userLine: q});
   }
 
   adoptPet = (user, pet) => {
@@ -81,10 +75,8 @@ class AdoptionPage extends Component {
       this.deleteUser(), this.deletePet()])
       .then(() => {
         this.getPet();
-        this.getUsers();
       })
     const adopt = {user: user, pet: pet.name};
-    console.log(pet);
     this.setState({recAdopt: [...this.state.recAdopt, adopt]});
   }
 
@@ -92,20 +84,19 @@ class AdoptionPage extends Component {
     const name = names[Math.floor(Math.random()*(names.length-1))+1];
 
     this.getPet();
-    this.getUsers();
 
     setInterval(() => {
-      if (this.state.userLine[0] !== this.state.currUser && this.state.currUser !== '') {
+      if (this.state.userLine.first && this.state.userLine.first.value !== this.state.currUser) {
         let name = names[Math.floor(Math.random()*(names.length-1))];      
-        this.adoptPet(this.state.userLine[0], this.state.currPet);
-        this.addUser(name);
+        this.adoptPet(this.state.userLine.first.value, this.state.currPet);
+        this.queueUser(name);
       }
     }, 30000);
   }
 
   render() {
     const disabled = 
-      this.state.currUser === this.state.userLine[0] ?
+      this.state.userLine.first && this.state.currUser === this.state.userLine.first.value ?
       '' : 'disabled';
 
     return (
@@ -113,12 +104,13 @@ class AdoptionPage extends Component {
         <div className="cards-container">
           <PetCard 
             pet={this.state.currPet} 
+            nextPets={this.state.nextTwoPets}
             adopt={this.adoptPet}
           />
         </div>
         <button 
           className="adopt-btn"
-          onClick={() => this.adoptPet(this.state.userLine[0], this.state.currPet)}
+          onClick={() => this.adoptPet(this.state.userLine.first.value, this.state.currPet)}
           disabled={disabled}
         >
           Adopt {this.state.currPet.name}
