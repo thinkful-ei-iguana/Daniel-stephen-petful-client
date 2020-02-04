@@ -4,7 +4,7 @@
 
 .pet-pic {
   width: auto;
-  height: 20rem;
+  max-height: 20rem;
   max-width: 100%;
 }
 
@@ -71,6 +71,13 @@
 }
 
 .next-pet-pic {
+  max-width: 100%;
+  height: auto;
+}
+
+.next-pet-div {
+  width: auto;
   max-width: 50%;
+  max-height: 15rem;
   margin: 1rem;
 }

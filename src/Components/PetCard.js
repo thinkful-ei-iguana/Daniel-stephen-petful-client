@@ -11,7 +11,9 @@ class PetCard extends Component {
             <h4>Upcoming Pets</h4>
           <div className="next-pets">
             {nextPets.map((pet, i) => {
-              return <img src={pet.imageURL} alt={pet.imageDescription} key={i} className="next-pet-pic" />
+              return <div className="next-pet-div" key={i} >
+                <img src={pet.imageURL} alt={pet.imageDescription} className="next-pet-pic" />
+              </div>
             })}
           </div>
           <div className='pet-pic-container'>

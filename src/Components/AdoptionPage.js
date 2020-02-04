@@ -10,11 +10,14 @@ import Queue from '../Queue';
 const names = ['Daniel', 'Barbara', 'Peter', 'Stephen', 'Sherry', 'Siri', 'Rudolph', 'Linda', 'Sri', 'Someone you know', 'Garfield', 'Alex', 'Maru', 'Penny', 'Sebastian', 'Gus', 'Emily', 'Pierre'];
 const REACT_APP_API_BASE = config.REACT_APP_API_BASE;
 
+const q = new Queue();
+q.enqueue('Gary');
+q.enqueue('Sally');
 
 class AdoptionPage extends Component {  
   state = {
     currUser: '',
-    userLine: new Queue(), 
+    userLine: q, 
     currPet: {},
     nextTwoPets: [],
     recAdopt: [],
@@ -53,11 +56,13 @@ class AdoptionPage extends Component {
       q.enqueue(node.value);
       node = node.next;
     }
+    if (this.state.currUser === this.state.userLine.first.value) {
+      this.setState({currUser: ''})
+    }
     this.setState({userLine: q});
   }
 
   queueUser = (name) => {
-    this.setState({currUser: name});
     
     const q = new Queue();
     let node = this.state.userLine.first;
@@ -71,13 +76,19 @@ class AdoptionPage extends Component {
 
   adoptPet = (user, pet) => {
  
-    Promise.all([
-      this.deleteUser(), this.deletePet()])
-      .then(() => {
-        this.getPet();
-      })
+    this.deleteUser();
+    fetch(`${REACT_APP_API_BASE}/pet`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      this.getPet();
+    }) 
     const adopt = {user: user, pet: pet.name};
-    this.setState({recAdopt: [...this.state.recAdopt, adopt]});
+    let arr = this.state.recAdopt
+    if (this.state.recAdopt.length > 4) {
+      arr = arr.slice(1);
+    }
+    this.setState({recAdopt: [...arr, adopt]});
   }
 
   componentDidMount() {
@@ -91,7 +102,11 @@ class AdoptionPage extends Component {
         this.adoptPet(this.state.userLine.first.value, this.state.currPet);
         this.queueUser(name);
       }
-    }, 30000);
+    }, 10000);
+  }
+
+  setCurrUser = (name) => {
+    this.setState({currUser: name});
   }
 
   render() {
@@ -115,7 +130,11 @@ class AdoptionPage extends Component {
         >
           Adopt {this.state.currPet.name}
         </button>
-        <UserInput queueUser={this.queueUser} />
+        <UserInput 
+          queueUser={this.queueUser} 
+          currUser={this.state.currUser} 
+          setCurrUser={this.setCurrUser}
+        />
         <div className="util-container">
           <Line users={this.state.userLine} />
           <RecentAdoptions 

@@ -7,6 +7,7 @@ class UserInput extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.setCurrUser(this.state.user_name)
     const { queueUser } = this.props;
     queueUser(this.state.user_name);
     this.setState({
@@ -21,6 +22,8 @@ class UserInput extends Component {
   }
 
   render() {
+    const disabled = (this.props.currUser !== '') ? 'disabled' : '';
+
     return (
       <div className="UserInput">
         <form className="UserInput__form">
@@ -30,7 +33,7 @@ class UserInput extends Component {
           <div className="row">
             <input type="text" id="user_name" placeholder="Your name here" onChange={event => this.handleUserName(event)}/>
 
-            <button className="UserInput__button" onClick={event => this.handleSubmit(event)}>Line up</button>
+            <button className="UserInput__button" onClick={event => this.handleSubmit(event)} disabled={disabled}>Line up</button>
           </div>
         </form>
       </div>
